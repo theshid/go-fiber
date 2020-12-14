@@ -10,10 +10,10 @@ func GetBook(c *fiber.Ctx) error {
 	return c.SendString("A Single Books")
 }
 
-func NewBooks(c *fiber.Ctx) error {
+func NewBook(c *fiber.Ctx) error {
 	return c.SendString("New Books")
 }
 
-func DeleteBooks(c *fiber.Ctx) error {
+func DeleteBook(c *fiber.Ctx) error {
 	return c.SendString("Delete a Book")
 }
