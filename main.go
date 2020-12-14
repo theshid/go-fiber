@@ -8,6 +8,10 @@ import (
 	"github.com/theshid/go-fiber/book"
 
 	"github.com/theshid/go-fiber/database"
+
+	"gorm.io/gorm"
+
+	"gorm.io/driver/sqlite"
 )
 
 func helloWorld(c *fiber.Ctx) error {
@@ -16,11 +20,17 @@ func helloWorld(c *fiber.Ctx) error {
 
 func initDatabase() {
 	var err error
-	database.DBConn, err = gorm.Open("sqlite3", "books.db")
+
+	database.DBConn, err = gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{})
+
 	if err != nil {
 		panic("failed to connect to database!")
 	}
 	fmt.Println("Database opened successfully!")
+
+	database.DBConn.AutoMigrate(&book.Book{})
+
+	fmt.Println("Database Migrated")
 }
 
 func setUpRoutes(app *fiber.App) {
@@ -31,6 +41,7 @@ func setUpRoutes(app *fiber.App) {
 }
 func main() {
 	app := fiber.New()
+	initDatabase()
 
 	setUpRoutes(app)
 
