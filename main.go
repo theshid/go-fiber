@@ -1,13 +1,26 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/gofiber/fiber/v2"
 
 	"github.com/theshid/go-fiber/book"
+
+	"github.com/theshid/go-fiber/database"
 )
 
 func helloWorld(c *fiber.Ctx) error {
 	return c.SendString("Hello, World")
+}
+
+func initDatabase() {
+	var err error
+	database.DBConn, err = gorm.Open("sqlite3", "books.db")
+	if err != nil {
+		panic("failed to connect to database!")
+	}
+	fmt.Println("Database opened successfully!")
 }
 
 func setUpRoutes(app *fiber.App) {
